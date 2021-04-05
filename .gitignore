@@ -485,3 +485,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+/Client/wwwroot/css/app.min.css
+/Client/package-lock.json
