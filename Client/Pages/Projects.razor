@@ -1,0 +1,47 @@
+@page "/projects"
+
+@using Portfolio.Shared
+
+@inject HttpClient Http
+
+<h3>Projects</h3>
+
+@if (_projects == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+                <th>Short Description</th>
+                <th>Image Description</th>
+                <th>Image URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in _projects)
+            {
+                <tr>
+                    <td>@project.Title</td>
+                    <td>@project.Created.ToShortDateString()</td>
+                    <td>@project.ShortDesc</td>
+                    <td>@project.ImageDescription</td>
+                    <td>@project.ImageUrl</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Project[] _projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _projects = await Http.GetFromJsonAsync<Project[]>("Project");
+    }
+}
