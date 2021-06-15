@@ -13,7 +13,7 @@ namespace Portfolio.Server.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // TODO: Use secrets here...
-            optionsBuilder.UseNpgsql("Host=localhost;Database=portfolio;Username=postgres;Password=Password123!");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=portfolio;Username=postgres;Password=admin");
         }
 
         public PortfolioContext(DbContextOptions<PortfolioContext> options)

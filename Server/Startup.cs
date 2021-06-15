@@ -32,8 +32,8 @@ namespace Portfolio.Server
             services.AddDbContext<PortfolioContext>(options =>
             {
                 // Set via secrets
-                options.UseNpgsql(Configuration["Database:PortfolioConnectionString"]);
-                // options.UseNpgsql("Host=localhost;Database=portfolio;Username=postgres;Password=Password123!");
+                // options.UseNpgsql(Configuration["Database:PortfolioConnectionString"]);
+                options.UseNpgsql("Host=localhost;Database=portfolio;Username=archy;Password=admin");
             });
         }
 

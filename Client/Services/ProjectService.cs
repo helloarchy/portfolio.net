@@ -1,9 +1,9 @@
 using System;
 using Portfolio.Shared;
 
-namespace Portfolio.Client.Helpers
+namespace Portfolio.Client.Services
 {
-    public static class ProjectHelper
+    public static class ProjectService
     {
         public static string GetTechnologyTitle(Technology technology)
         {

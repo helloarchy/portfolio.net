@@ -23,15 +23,18 @@ namespace Portfolio.Server.Data
             while (count < totalCount)
             {
                 var list = new List<Project>();
+                
                 while (currentCycle++ < 100 && count++ < totalCount)
                 {
                     list.Add(MakeProject());
                 }
+                
                 if (list.Count > 0)
                 {
                     await context.Projects.AddRangeAsync(list);
                     await context.SaveChangesAsync();
                 }
+                
                 currentCycle = 0;
             }
         }

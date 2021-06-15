@@ -1,5 +1,5 @@
 @using Portfolio.Shared
-@using Portfolio.Client.Helpers
+@using Portfolio.Client.Services
 <div class="my-3 mb-6 px-3 w-1/3">
     <article
         class="bg-white shadow-lg overflow-hidden rounded-lg">
@@ -37,7 +37,7 @@
                             @key=@technology
                              class=
                              "py-2 px-4 shadow-md no-underline rounded-full bg-blue text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-blue-light focus:outline-none active:shadow-none mr-2">
-                            @ProjectHelper.GetTechnologyTitle(technology)
+                            @ProjectService.GetTechnologyTitle(technology)
                         </button>
                     }
                 </div>
