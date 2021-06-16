@@ -1,26 +1,62 @@
 @inherits LayoutComponentBase
 
+@inject NavigationManager _navigationManager
+
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">@_title</MudText>
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">@Title</MudText>
+        <MudSpacer/>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.End"
+                       OnClick="@(_ => DrawerToggle())"/>
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Anchor="Anchor.Right">
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2"
+               Anchor="Anchor.Right">
         @*NavMenu*@
         @* TODO: Add nav bar... *@
     </MudDrawer>
     <MudMainContent>
+        <MudBreadcrumbs Items="_breadcrumbItems" Separator="/"></MudBreadcrumbs>
         @*Body*@
         @Body
     </MudMainContent>
 </MudLayout>
+
 @code {
-    string _title = "Portfolio";
+        private const string Title = "Portfolio";
     bool _drawerOpen = true;
+
+    private List<BreadcrumbItem> _breadcrumbItems = new();
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    protected override void OnParametersSet()
+    {
+        var home = _navigationManager.BaseUri;
+        var currentPage = _navigationManager.Uri;
+        var path = _navigationManager.ToBaseRelativePath(home).Split('/');
+        
+        Console.WriteLine($"DEBUG => home is {_navigationManager.Uri}");
+        Console.WriteLine($"DEBUG => current page  is {currentPage}");
+        Console.WriteLine($"DEBUG => Path  is...");
+        Array.ForEach(path, Console.WriteLine);
+        
+        _breadcrumbItems.Add(new BreadcrumbItem(
+            "home",
+            home
+            ));
+
+        foreach (var page in path)
+        {
+            if (page == "") continue;
+            var lastLink = _breadcrumbItems.Last();
+            _breadcrumbItems.Add(new BreadcrumbItem(
+                page,
+                $"{lastLink.Href}/{page}"
+                ));
+        }
+    }
+
 }
