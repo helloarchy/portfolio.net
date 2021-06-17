@@ -3,58 +3,36 @@
 @using Portfolio.Shared
 @using Portfolio.Client.Components
 
-@inject HttpClient Http
-
-<h3>Projects</h3>
+@inject HttpClient _http
 
 @if (_projects == null)
 {
-    <p><em>Loading...</em></p>
+    <MudContainer>
+        <MudText Typo="Typo.h2" Align="Align.Center">Projects</MudText>
+        <div class="flex justify-center mt-8">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
+        </div>
+    </MudContainer>
 }
 else
 {
-    <h1>Table</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Short Description</th>
-            <th>Image Description</th>
-            <th>Image URL</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var project in _projects)
-        {
-            <tr>
-                <td>@project.Title</td>
-                <td>@project.Created.ToShortDateString()</td>
-                <td>@project.ShortDesc</td>
-                <td>@project.ImageDescription</td>
-                <td>@project.ImageUrl</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-    
-    <h1>Cards</h1>
-    <div class="flex flex-wrap">
-        @foreach (var project in _projects)
-        {
-            <ProjectCard 
-                @key=@project.ProjectId 
-                 Title=@project.Title 
-                 Categories=@project.Categories 
-                 Created=@project.Created 
-                 Technologies=@project.Technologies
-                 ImageAlt=@project.ImageDescription
-                 ImageUrl=@project.ImageUrl
-                 PageLink=""
-            />
-            @* TODO: Add page link... *@
-        }
-    </div>
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        <div class="flex flex-wrap justify-center">
+                @foreach (var project in _projects)
+                {
+                    <ProjectCard
+                        @key=@project.ProjectId
+                        Title=@project.Title
+                        Categories=@project.ProjectCategories
+                        Created=@project.Created
+                        Technologies=@project.ProjectTechnologies
+                        ImageAlt=@project.ImageDescription
+                        ImageUrl=@project.ImageUrl
+                        PageLink=""/>
+                    @* TODO: Add page link... *@
+                }
+            </div>
+    </MudContainer>
 }
 
 @code {
@@ -62,6 +40,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _projects = await Http.GetFromJsonAsync<Project[]>("Project");
+        try
+        {
+            _projects = await _http.GetFromJsonAsync<Project[]>("Project");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("DEBUG => Failed to load projects");
+            Console.WriteLine(e.Message);
+        }
     }
+
 }

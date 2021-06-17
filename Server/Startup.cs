@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Server.Data;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace Portfolio.Server
 {
@@ -25,16 +28,21 @@ namespace Portfolio.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
-            services.AddDbContext<PortfolioContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
                 // Set via secrets
                 // options.UseNpgsql(Configuration["Database:PortfolioConnectionString"]);
-                options.UseNpgsql("Host=localhost;Database=portfolio;Username=archy;Password=admin");
+                // options.UseNpgsql("Host=localhost;Database=portfolio;Username=archy;Password=admin");
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection"));
             });
+            
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

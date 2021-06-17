@@ -1,64 +1,26 @@
 @using Portfolio.Shared
 @using Portfolio.Client.Services
-<div class="my-3 mb-6 px-3 w-1/3">
-    <article
-        class="bg-white shadow-lg overflow-hidden rounded-lg">
-        @* Thumbnail *@
-        <a href="@* todo: page link... *@">
-            @* Random place holder image *@
-            <img
-                alt="Placeholder image"
-                class="block h-auto w-full"
-                src="https://picsum.photos/600/400/?random"/>
-        </a>
 
-        @* Title *@
-        <header
-            class="flex items-center justify-between leading-tight p-2 md:p-2">
-            <h1 class="text-lg">
-                <a href="@* todo: page link... *@">@Title</a>
-            </h1>
-        </header>
-
-        @* Short Description *@
-        <section class="select-none px-2 max-w-xl">
-            <p class="text-grey-darker text-sm">@Created</p>
-            <p class="mt-2 text-gray-600">@ShortDescription</p>
-        </section>
-
-        @* Technologies *@
-        @if (Technologies != null && Technologies.Count > 0)
-        {
-            <section class="p-2">
-                <div class="mx-2 p2 select-none flex">
-                    @foreach (var technology in Technologies)
-                    {
-                        <button
-                            @key=@technology
-                             class=
-                             "py-2 px-4 shadow-md no-underline rounded-full bg-blue text-white font-sans font-semibold text-sm border-blue btn-primary hover:text-white hover:bg-blue-light focus:outline-none active:shadow-none mr-2">
-                            @ProjectService.GetTechnologyTitle(technology)
-                        </button>
-                    }
-                </div>
-            </section>
-        }
-
-        <footer
-            class="flex justify-end items-center leading-none p-2 md:p-2">
-            @* More info button *@
-            <a href="@* TODO: Add page link... *@">
-                <button
-                    type="button"
-                    class=
-                    "border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline"
-                    >
-                    More info
-                </button>
-            </a>
-        </footer>
-    </article>
+<div class="w-1/3">
+    <MudCard Class="m-4">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.body1">@Title</MudText>
+                <MudText Typo="Typo.body2">@Created</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardMedia Image="@ImageUrl" Height="250"/>
+        <MudCardContent>
+            <MudText Typo="Typo.body2">@ShortDescription</MudText>
+        </MudCardContent>
+        <MudCardActions Class="flex justify-end">
+            <MudButton Color="Color.Primary" Variant="Variant.Outlined" Link="@PageLink">
+                More Info
+            </MudButton>
+        </MudCardActions>
+    </MudCard>
 </div>
+
 
 @code {
 
@@ -78,12 +40,21 @@
     public string ImageUrl { get; set; }
 
     [Parameter]
-    public string PageLink { get; set; }
+    public string PageLink { get; set; } = "/projects";
 
     [Parameter]
-    public List<Technology> Technologies { get; set; } = null;
-    
+    public ICollection<ProjectTechnology> Technologies { get; set; }
+
     [Parameter]
-    public List<Category> Categories { get; set; }
+    public ICollection<ProjectCategory> Categories { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (ImageUrl == "")
+        {
+            ImageUrl = "https://picsum.photos/600/400/?random";
+        }
+        base.OnParametersSet();
+    }
 
 }

@@ -23,9 +23,9 @@
 
 @code {
         private const string Title = "Portfolio";
-    bool _drawerOpen = true;
+    bool _drawerOpen;
 
-    private List<BreadcrumbItem> _breadcrumbItems = new();
+    private List<BreadcrumbItem> _breadcrumbItems;
 
     void DrawerToggle()
     {
@@ -34,6 +34,7 @@
 
     protected override void OnParametersSet()
     {
+        _breadcrumbItems = new List<BreadcrumbItem>();
         var home = _navigationManager.BaseUri;
         var currentPage = _navigationManager.Uri;
         var path = _navigationManager.ToBaseRelativePath(home).Split('/');

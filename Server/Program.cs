@@ -18,12 +18,8 @@ namespace Portfolio.Server
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            
-            var sp = host.Services.GetService<IServiceScopeFactory>()
-                ?.CreateScope()
-                .ServiceProvider;
-            var options = sp.GetRequiredService<DbContextOptions<PortfolioContext>>();
-            await SeedDb(options, 5);
+
+            await CreateDbAndSeed(host);
 
             await host.RunAsync();
         }
@@ -36,19 +32,22 @@ namespace Portfolio.Server
                 });
         
         
-        private static async Task SeedDb(DbContextOptions<PortfolioContext> options, int count)
+        private static async Task CreateDbAndSeed(IHost host)
         {
-            // empty to avoid logging while inserting (otherwise will flood console)
-            var factory = new LoggerFactory();
-            var builder = new DbContextOptionsBuilder<PortfolioContext>(options)
-                .UseLoggerFactory(factory);
-
-            await using var context = new PortfolioContext(builder.Options);
-            // result is true if the database had to be created
-            if (await context.Database.EnsureCreatedAsync())
+            using (var scope = host.Services.CreateScope())
             {
-                var seed = new SeedProjects();
-                await seed.SeedDbWithProjects(context, count);
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    await context.Database.EnsureCreatedAsync();
+                    await DbSeed.Initialise(context);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred creating the DB.");
+                }
             }
         }
     }
