@@ -28,24 +28,7 @@ namespace Portfolio.Server.Controllers
                 .Include(p => p.ProjectCategories)
                 .Include(p => p.ProjectTechnologies)
                 .ToListAsync();
-            
-            Console.WriteLine($"DEBUG => Projects are... length {projects.Count}");
-            projects.ToList().ForEach(p =>
-            {
-                Console.WriteLine(p.ToString());
-                Console.WriteLine(p.Title);
-                
-                p.ProjectTechnologies.ToList().ForEach(pt =>
-                {
-                    Console.WriteLine(pt.Name);
-                });
-                
-                p.ProjectCategories.ToList().ForEach(pc =>
-                {
-                    Console.WriteLine(pc.Name);
-                });
-            });            
-            
+
             return Ok(projects);
         }
     }

@@ -60,8 +60,7 @@ namespace Portfolio.Server.Data
         
         private static async Task SeedProjects(ApplicationDbContext context)
         {
-            Project project =
-                new()
+            Project project1 = new()
                 {
                     Title = "The First Project",
                     Created = DateTime.Now,
@@ -74,83 +73,83 @@ namespace Portfolio.Server.Data
                 };
 
             var category1 = context.ProjectsCategories.FirstOrDefault();
-            project.ProjectCategories.Add(category1);
-
             var technology1 = context.ProjectsTechnologies.FirstOrDefault();
-            project.ProjectTechnologies.Add(technology1);
             
-            /*new()
-                {
-                    Title = "Some second project",
-                    Created = new DateTime(),
-                    ShortDesc = "Second lorem ipsum dolor sit amet",
-                    BodyMarkdown = "",
-                    ProjectCategories = new List<ProjectCategory>
-                    {
-                        context.ProjectsCategories.FirstOrDefault(c => c.Name == "C#")
-                    },
-                    ImageDescription = "A second picture of a cat",
-                    ImageUrl = "https://cataas.com/cat/says/I'm%20Second",
-                    ProjectTechnologies = new List<ProjectTechnology>
-                    {
-                        context.ProjectsTechnologies.FirstOrDefault(t => t.Name == "Web Applications")
-                    }
-                },
-                new()
-                {
-                    Title = "Perhaps a Third",
-                    Created = new DateTime(),
-                    ShortDesc = "Third lorem ipsum dolor sit amet",
-                    BodyMarkdown = "",
-                    ProjectCategories = new List<ProjectCategory>
-                    {
-                        context.ProjectsCategories.FirstOrDefault(c => c.Name == "C#")
-                    },
-                    ImageDescription = "A third picture of a cat",
-                    ImageUrl = "https://cataas.com/cat/says/I'm%20Third",
-                    ProjectTechnologies = new List<ProjectTechnology>
-                    {
-                        context.ProjectsTechnologies.FirstOrDefault(t => t.Name == "Web Applications")
-                    }
-                },
-                new()
-                {
-                    Title = "Oh, a Fourth?!",
-                    Created = new DateTime(),
-                    ShortDesc = "Fourth lorem ipsum dolor sit amet",
-                    BodyMarkdown = "",
-                    ProjectCategories = new List<ProjectCategory>
-                    {
-                        context.ProjectsCategories.FirstOrDefault(c => c.Name == "C#")
-                    },
-                    ImageDescription = "A fourth picture of a cat",
-                    ImageUrl = "https://cataas.com/cat/says/I'm%20Fourth",
-                    ProjectTechnologies = new List<ProjectTechnology>
-                    {
-                        context.ProjectsTechnologies.FirstOrDefault(t => t.Name == "Web Applications")
-                    }
-                },
-                new()
-                {
-                    Title = "Final Fifth",
-                    Created = new DateTime(),
-                    ShortDesc = "Fifth lorem ipsum dolor sit amet",
-                    BodyMarkdown = "",
-                    ProjectCategories = new List<ProjectCategory>
-                    {
-                        context.ProjectsCategories.FirstOrDefault(c => c.Name == "C#")
-                    },
-                    ImageDescription = "A fifth picture of a cat",
-                    ImageUrl = "https://cataas.com/cat/says/I'm%20Fifth",
-                    ProjectTechnologies = new List<ProjectTechnology>
-                    {
-                        context.ProjectsTechnologies.FirstOrDefault(t => t.Name == "Web Applications")
-                    }
-                }*/
+            project1.ProjectCategories.Add(category1);
+            project1.ProjectTechnologies.Add(technology1);
 
+            Project project2 = new()
+            {
+                Title = "Some second project",
+                Created = new DateTime(),
+                ShortDesc = "Second lorem ipsum dolor sit amet",
+                BodyMarkdown = "",
+                ProjectCategories = new List<ProjectCategory>(),
+                ImageDescription = "A second picture of a cat",
+                ImageUrl = "https://cataas.com/cat/says/I'm%20Second",
+                ProjectTechnologies = new List<ProjectTechnology>()
+            };
+            
+            project2.ProjectCategories.Add(category1);
+            project2.ProjectTechnologies.Add(technology1);
+            
+            Project project3 = new()
+            {
+                Title = "Perhaps a Third",
+                Created = new DateTime(),
+                ShortDesc = "Third lorem ipsum dolor sit amet",
+                BodyMarkdown = "",
+                ProjectCategories = new List<ProjectCategory>(),
+                ImageDescription = "A third picture of a cat",
+                ImageUrl = "https://cataas.com/cat/says/I'm%20Third",
+                ProjectTechnologies = new List<ProjectTechnology>()
+            };
+            
+            project3.ProjectCategories.Add(category1);
+            project3.ProjectTechnologies.Add(technology1);
+            
+            Project project4 = new()
+            {
+                Title = "Oh, a Fourth?!",
+                Created = new DateTime(),
+                ShortDesc = "Fourth lorem ipsum dolor sit amet",
+                BodyMarkdown = "",
+                ProjectCategories = new List<ProjectCategory>(),
+                ImageDescription = "A fourth picture of a cat",
+                ImageUrl = "https://cataas.com/cat/says/I'm%20Fourth",
+                ProjectTechnologies = new List<ProjectTechnology>()
+            };
+            
+            project4.ProjectCategories.Add(category1);
+            project4.ProjectTechnologies.Add(technology1);
+            
+            Project project5 = new()
+            {
+                Title = "Final Fifth",
+                Created = new DateTime(),
+                ShortDesc = "Fifth lorem ipsum dolor sit amet",
+                BodyMarkdown = "",
+                ProjectCategories = new List<ProjectCategory>(),
+                ImageDescription = "A fifth picture of a cat",
+                ImageUrl = "https://cataas.com/cat/says/I'm%20Fifth",
+                ProjectTechnologies = new List<ProjectTechnology>()
+            };
+            
+            project5.ProjectCategories.Add(category1);
+            project5.ProjectTechnologies.Add(technology1);
+
+            var projects = new List<Project>
+            {
+                project1,
+                project2,
+                project3,
+                project4,
+                project5
+            };
+            
             try
             {
-                context.Projects.Add(project);
+                context.Projects.AddRange(projects);
                 await context.SaveChangesAsync();
             }
             catch (Exception e)

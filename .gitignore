@@ -487,3 +487,6 @@ FodyWeavers.xsd
 
 /Client/wwwroot/css/app.min.css
 /Client/package-lock.json
+
+# Local dev db
+**/app.db
