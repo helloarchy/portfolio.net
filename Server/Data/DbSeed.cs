@@ -24,7 +24,7 @@ namespace Portfolio.Server.Data
 
         private static async Task SeedCategories(ApplicationDbContext context)
         {
-            ProjectCategory[] categories =
+            Category[] categories =
             {
                 new() {Name = "Data Science"},
                 new() {Name = "Game Development"},
@@ -32,13 +32,13 @@ namespace Portfolio.Server.Data
                 new() {Name = "Web Application"}
             };
 
-            context.ProjectsCategories.AddRange(categories);
+            context.Categories.AddRange(categories);
             await context.SaveChangesAsync();
         }
         
         private static async Task SeedTechnologies(ApplicationDbContext context)
         {
-            ProjectTechnology[] technologies =
+            Technology[] technologies =
             {
                 new() {Name = "C++"},
                 new() {Name = "C#"},
@@ -51,32 +51,40 @@ namespace Portfolio.Server.Data
                 new() {Name = "TypeScript"},
                 new() {Name = "JavaScript"},
                 new() {Name = "PHP"},
-                new() {Name = "MongoDB"}
+                new() {Name = "MongoDB"},
+                new() {Name = "SQL"}
             };
 
-            context.ProjectsTechnologies.AddRange(technologies);
+            context.Technologies.AddRange(technologies);
             await context.SaveChangesAsync();
         }
         
         private static async Task SeedProjects(ApplicationDbContext context)
         {
-            Project project1 = new()
+            // Workings
+            var workingsCategories = new List<Category>
+            {
+                context.Categories.FirstOrDefault(pc => pc.Name == "Web Application")
+            };
+            
+            var workingsTechnologies = new List<Technology>
+            {
+                context.Technologies.FirstOrDefault(pt => pt.Name == "C#"),
+                context.Technologies.FirstOrDefault(pt => pt.Name == ".NET"),
+                context.Technologies.FirstOrDefault(pt => pt.Name == "SQL")
+            };
+            Project workings = new()
                 {
-                    Title = "The First Project",
+                    Title = "Workings",
                     Created = DateTime.Now,
-                    ShortDesc = "First lorem ipsum dolor sit amet",
+                    ShortDesc = "A web app to provide dynamically generated instructions for the" +
+                                "creation of hand-made roman blinds.",
                     BodyMarkdown = "TODO",
-                    ProjectCategories = new List<ProjectCategory>(),
+                    Categories = workingsCategories,
                     ImageDescription = "A first picture of a cat",
                     ImageUrl = "https://cataas.com/cat/says/I'm%20First",
-                    ProjectTechnologies = new List<ProjectTechnology>()
+                    Technologies = workingsTechnologies
                 };
-
-            var category1 = context.ProjectsCategories.FirstOrDefault();
-            var technology1 = context.ProjectsTechnologies.FirstOrDefault();
-            
-            project1.ProjectCategories.Add(category1);
-            project1.ProjectTechnologies.Add(technology1);
 
             Project project2 = new()
             {
@@ -84,14 +92,17 @@ namespace Portfolio.Server.Data
                 Created = new DateTime(),
                 ShortDesc = "Second lorem ipsum dolor sit amet",
                 BodyMarkdown = "",
-                ProjectCategories = new List<ProjectCategory>(),
+                Categories = new List<Category>(),
                 ImageDescription = "A second picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Second",
-                ProjectTechnologies = new List<ProjectTechnology>()
+                Technologies = new List<Technology>()
             };
+
+            var category1 = context.Categories.FirstOrDefault();
+            var technology1 = context.Technologies.FirstOrDefault();
             
-            project2.ProjectCategories.Add(category1);
-            project2.ProjectTechnologies.Add(technology1);
+            project2.Categories.Add(category1);
+            project2.Technologies.Add(technology1);
             
             Project project3 = new()
             {
@@ -99,14 +110,14 @@ namespace Portfolio.Server.Data
                 Created = new DateTime(),
                 ShortDesc = "Third lorem ipsum dolor sit amet",
                 BodyMarkdown = "",
-                ProjectCategories = new List<ProjectCategory>(),
+                Categories = new List<Category>(),
                 ImageDescription = "A third picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Third",
-                ProjectTechnologies = new List<ProjectTechnology>()
+                Technologies = new List<Technology>()
             };
             
-            project3.ProjectCategories.Add(category1);
-            project3.ProjectTechnologies.Add(technology1);
+            project3.Categories.Add(category1);
+            project3.Technologies.Add(technology1);
             
             Project project4 = new()
             {
@@ -114,14 +125,14 @@ namespace Portfolio.Server.Data
                 Created = new DateTime(),
                 ShortDesc = "Fourth lorem ipsum dolor sit amet",
                 BodyMarkdown = "",
-                ProjectCategories = new List<ProjectCategory>(),
+                Categories = new List<Category>(),
                 ImageDescription = "A fourth picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Fourth",
-                ProjectTechnologies = new List<ProjectTechnology>()
+                Technologies = new List<Technology>()
             };
             
-            project4.ProjectCategories.Add(category1);
-            project4.ProjectTechnologies.Add(technology1);
+            project4.Categories.Add(category1);
+            project4.Technologies.Add(technology1);
             
             Project project5 = new()
             {
@@ -129,18 +140,18 @@ namespace Portfolio.Server.Data
                 Created = new DateTime(),
                 ShortDesc = "Fifth lorem ipsum dolor sit amet",
                 BodyMarkdown = "",
-                ProjectCategories = new List<ProjectCategory>(),
+                Categories = new List<Category>(),
                 ImageDescription = "A fifth picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Fifth",
-                ProjectTechnologies = new List<ProjectTechnology>()
+                Technologies = new List<Technology>()
             };
             
-            project5.ProjectCategories.Add(category1);
-            project5.ProjectTechnologies.Add(technology1);
+            project5.Categories.Add(category1);
+            project5.Technologies.Add(technology1);
 
             var projects = new List<Project>
             {
-                project1,
+                workings,
                 project2,
                 project3,
                 project4,

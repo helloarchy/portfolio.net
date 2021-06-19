@@ -9,8 +9,6 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Server.Data;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace Portfolio.Server

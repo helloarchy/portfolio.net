@@ -2,18 +2,17 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace Portfolio.Shared
 {
-    public class ProjectCategory
+    public class Technology
     {
-        public int ProjectCategoryId { get; set; }
+        public int TechnologyId { get; set; }
 
         public string Name { get; set; } = "Default";
 
         public virtual ICollection<Project> Projects { get; set; }
 
-        public ProjectCategory()
+        public Technology()
         {
             Projects = new HashSet<Project>();
         }

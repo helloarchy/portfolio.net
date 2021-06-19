@@ -9,8 +9,8 @@ namespace Portfolio.Server.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectCategory> ProjectsCategories { get; set; }
-        public DbSet<ProjectTechnology> ProjectsTechnologies { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Technology> Technologies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -22,16 +22,16 @@ namespace Portfolio.Server.Data
         {
             // configures one-to-many relationship
             /*modelBuilder.Entity<Project>()
-                .HasMany(p => p.ProjectCategories)
+                .HasMany(p => p.Categories)
                 .WithMany(pc => pc.Projects);
 
             modelBuilder.Entity<Project>()
-                .HasMany(p => p.ProjectTechnologies)
-                .WithMany(pt => pt.Projects);
+                .HasMany(p => p.Technologies)
+                .WithMany(pt => pt.Projects);*/
             
-            modelBuilder.Entity<Project>().ToTable("Project");
-            modelBuilder.Entity<ProjectCategory>().ToTable("ProjectCategory");
-            modelBuilder.Entity<ProjectTechnology>().ToTable("ProjectTechnology");*/
+            modelBuilder.Entity<Project>().ToTable("Projects");
+            modelBuilder.Entity<Category>().ToTable("Categories");
+            modelBuilder.Entity<Technology>().ToTable("Technologies");
 
             base.OnModelCreating(modelBuilder);
         }

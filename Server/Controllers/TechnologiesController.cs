@@ -11,11 +11,11 @@ namespace Portfolio.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProjectTechnologiesController : ControllerBase
+    public class TechnologiesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectTechnologiesController(ApplicationDbContext context)
+        public TechnologiesController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace Portfolio.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var projectTechnologies = await _context.ProjectsTechnologies
+            var projectTechnologies = await _context.Technologies
                 .ToListAsync();
             
             return Ok(projectTechnologies);

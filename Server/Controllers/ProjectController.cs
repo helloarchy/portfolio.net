@@ -25,8 +25,8 @@ namespace Portfolio.Server.Controllers
         public async Task<IActionResult> Get()
         {
             var projects = await _context.Projects
-                .Include(p => p.ProjectCategories)
-                .Include(p => p.ProjectTechnologies)
+                .Include(p => p.Categories)
+                .Include(p => p.Technologies)
                 .ToListAsync();
 
             return Ok(projects);

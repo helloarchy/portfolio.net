@@ -43,10 +43,10 @@
     public string PageLink { get; set; } = "/projects";
 
     [Parameter]
-    public ICollection<ProjectTechnology> Technologies { get; set; }
+    public ICollection<Technology> Technologies { get; set; }
 
     [Parameter]
-    public ICollection<ProjectCategory> Categories { get; set; }
+    public ICollection<Category> Categories { get; set; }
 
     protected override void OnParametersSet()
     {

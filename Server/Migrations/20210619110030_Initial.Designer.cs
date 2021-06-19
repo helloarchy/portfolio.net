@@ -9,14 +9,43 @@ using Portfolio.Server.Data;
 namespace Portfolio.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210617194851_UpdateRelationships")]
-    partial class UpdateRelationships
+    [Migration("20210619110030_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.7");
+
+            modelBuilder.Entity("CategoryProject", b =>
+                {
+                    b.Property<int>("CategoriesCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProjectsProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoriesCategoryId", "ProjectsProjectId");
+
+                    b.HasIndex("ProjectsProjectId");
+
+                    b.ToTable("CategoryProject");
+                });
+
+            modelBuilder.Entity("Portfolio.Shared.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("Portfolio.Shared.Project", b =>
                 {
@@ -47,69 +76,40 @@ namespace Portfolio.Server.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("Portfolio.Shared.ProjectCategory", b =>
+            modelBuilder.Entity("Portfolio.Shared.Technology", b =>
                 {
-                    b.Property<int>("ProjectCategoryId")
+                    b.Property<int>("TechnologyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ProjectCategoryId");
+                    b.HasKey("TechnologyId");
 
-                    b.ToTable("ProjectsCategories");
+                    b.ToTable("Technologies");
                 });
 
-            modelBuilder.Entity("Portfolio.Shared.ProjectTechnology", b =>
+            modelBuilder.Entity("ProjectTechnology", b =>
                 {
-                    b.Property<int>("ProjectTechnologyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ProjectTechnologyId");
-
-                    b.ToTable("ProjectsTechnologies");
-                });
-
-            modelBuilder.Entity("ProjectProjectCategory", b =>
-                {
-                    b.Property<int>("ProjectCategoriesProjectCategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ProjectsProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ProjectCategoriesProjectCategoryId", "ProjectsProjectId");
-
-                    b.HasIndex("ProjectsProjectId");
-
-                    b.ToTable("ProjectProjectCategory");
-                });
-
-            modelBuilder.Entity("ProjectProjectTechnology", b =>
-                {
-                    b.Property<int>("ProjectTechnologiesProjectTechnologyId")
+                    b.Property<int>("TechnologiesTechnologyId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProjectsProjectId")
-                        .HasColumnType("INTEGER");
+                    b.HasKey("ProjectsProjectId", "TechnologiesTechnologyId");
 
-                    b.HasKey("ProjectTechnologiesProjectTechnologyId", "ProjectsProjectId");
+                    b.HasIndex("TechnologiesTechnologyId");
 
-                    b.HasIndex("ProjectsProjectId");
-
-                    b.ToTable("ProjectProjectTechnology");
+                    b.ToTable("ProjectTechnology");
                 });
 
-            modelBuilder.Entity("ProjectProjectCategory", b =>
+            modelBuilder.Entity("CategoryProject", b =>
                 {
-                    b.HasOne("Portfolio.Shared.ProjectCategory", null)
+                    b.HasOne("Portfolio.Shared.Category", null)
                         .WithMany()
-                        .HasForeignKey("ProjectCategoriesProjectCategoryId")
+                        .HasForeignKey("CategoriesCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -120,17 +120,17 @@ namespace Portfolio.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectProjectTechnology", b =>
+            modelBuilder.Entity("ProjectTechnology", b =>
                 {
-                    b.HasOne("Portfolio.Shared.ProjectTechnology", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectTechnologiesProjectTechnologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Portfolio.Shared.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Portfolio.Shared.Technology", null)
+                        .WithMany()
+                        .HasForeignKey("TechnologiesTechnologyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -14,13 +14,7 @@ namespace Portfolio.Shared
         public string BodyMarkdown { get; set; }
         public string ImageDescription { get; set; }
         public string ImageUrl { get; set; }
-        public virtual ICollection<ProjectCategory> ProjectCategories { get; set; }
-        public virtual ICollection<ProjectTechnology> ProjectTechnologies { get; set; }
-
-        public Project()
-        {
-            ProjectCategories = new HashSet<ProjectCategory>();
-            ProjectTechnologies = new HashSet<ProjectTechnology>();
-        }
+        public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+        public virtual ICollection<Technology> Technologies { get; set; } = new List<Technology>();
     }
 }
