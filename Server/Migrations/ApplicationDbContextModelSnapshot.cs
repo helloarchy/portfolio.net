@@ -63,6 +63,9 @@ namespace Portfolio.Server.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PageName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ShortDesc")
                         .HasColumnType("TEXT");
 

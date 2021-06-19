@@ -20,16 +20,8 @@ else
         <div class="flex flex-wrap justify-center">
                 @foreach (var project in _projects)
                 {
-                    <ProjectCard
-                        @key=@project.ProjectId
-                        Title=@project.Title
-                        Categories=@project.Categories
-                        Created=@project.Created
-                        Technologies=@project.Technologies
-                        ImageAlt=@project.ImageDescription
-                        ImageUrl=@project.ImageUrl
-                        PageLink=""/>
                     @* TODO: Add page link... *@
+                    <ProjectCard @key=@project.ProjectId Project="@project" />
                 }
             </div>
     </MudContainer>

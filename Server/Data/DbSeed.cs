@@ -83,6 +83,7 @@ namespace Portfolio.Server.Data
                     Categories = workingsCategories,
                     ImageDescription = "A first picture of a cat",
                     ImageUrl = "https://cataas.com/cat/says/I'm%20First",
+                    PageName = "workings",
                     Technologies = workingsTechnologies
                 };
 
@@ -95,6 +96,7 @@ namespace Portfolio.Server.Data
                 Categories = new List<Category>(),
                 ImageDescription = "A second picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Second",
+                PageName = "second",
                 Technologies = new List<Technology>()
             };
 
@@ -113,6 +115,7 @@ namespace Portfolio.Server.Data
                 Categories = new List<Category>(),
                 ImageDescription = "A third picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Third",
+                PageName = "third",
                 Technologies = new List<Technology>()
             };
             
@@ -128,6 +131,7 @@ namespace Portfolio.Server.Data
                 Categories = new List<Category>(),
                 ImageDescription = "A fourth picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Fourth",
+                PageName = "fourth",
                 Technologies = new List<Technology>()
             };
             
@@ -143,6 +147,7 @@ namespace Portfolio.Server.Data
                 Categories = new List<Category>(),
                 ImageDescription = "A fifth picture of a cat",
                 ImageUrl = "https://cataas.com/cat/says/I'm%20Fifth",
+                PageName = "fifth",
                 Technologies = new List<Technology>()
             };
             

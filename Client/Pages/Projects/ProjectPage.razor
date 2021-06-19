@@ -1,0 +1,16 @@
+﻿@page "/projects/{projectpagename}"
+<h3>project @ProjectPageName</h3>
+
+@code {
+    [Parameter]
+    public string ProjectPageName { get; set; }
+
+    protected override void OnInitialized()
+        {
+            ProjectPageName ??= "default";
+        
+            /*
+             * TODO: If project name doesn't exist, then 404
+             */
+        }
+}

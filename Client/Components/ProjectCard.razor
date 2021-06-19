@@ -5,16 +5,25 @@
     <MudCard Class="m-4">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.body1">@Title</MudText>
-                <MudText Typo="Typo.body2">@Created</MudText>
+                <MudText Typo="Typo.body1">@Project.Title</MudText>
+                <MudText Typo="Typo.body2">@Project.Created</MudText>
+                @foreach (var category in Project.Categories)
+                {
+                    <MudChip Color="Color.Info" Variant="Variant.Outlined">@category.Name</MudChip>
+                }
             </CardHeaderContent>
         </MudCardHeader>
-        <MudCardMedia Image="@ImageUrl" Height="250"/>
+        <MudCardMedia Image="@Project.ImageUrl" Height="250"/>
         <MudCardContent>
-            <MudText Typo="Typo.body2">@ShortDescription</MudText>
+            <MudText Typo="Typo.body2">@Project.ShortDesc</MudText>
+            <MudDivider/>
+            @foreach (var technology in Project.Technologies)
+            {
+                <MudChip Color="Color.Secondary" Variant="Variant.Outlined">@technology.Name</MudChip>
+            }
         </MudCardContent>
         <MudCardActions Class="flex justify-end">
-            <MudButton Color="Color.Primary" Variant="Variant.Outlined" Link="@PageLink">
+            <MudButton Color="Color.Primary" Variant="Variant.Outlined" Link="@_pageLink">
                 More Info
             </MudButton>
         </MudCardActions>
@@ -25,35 +34,17 @@
 @code {
 
     [Parameter]
-    public string Title { get; set; }
-
-    [Parameter]
-    public DateTime Created { get; set; }
-
-    [Parameter]
-    public string ShortDescription { get; set; }
-
-    [Parameter]
-    public string ImageAlt { get; set; }
-
-    [Parameter]
-    public string ImageUrl { get; set; }
-
-    [Parameter]
-    public string PageLink { get; set; } = "/projects";
-
-    [Parameter]
-    public ICollection<Technology> Technologies { get; set; }
-
-    [Parameter]
-    public ICollection<Category> Categories { get; set; }
+    public Project Project { get; set; }
+    
+    private string _imageUrl;
+    private string _pageLink;
 
     protected override void OnParametersSet()
     {
-        if (ImageUrl == "")
-        {
-            ImageUrl = "https://picsum.photos/600/400/?random";
-        }
+        _imageUrl = string.IsNullOrWhiteSpace(Project.ImageUrl) ? 
+            "https://picsum.photos/600/400/?random" : Project.ImageUrl;
+
+        _pageLink = $"/projects/{Project.PageName}";
         base.OnParametersSet();
     }
 

@@ -9,6 +9,8 @@ namespace Portfolio.Shared
     {
         public int ProjectId { get; set; }
         public string Title { get; set; }
+
+        public string PageName { get; set; }
         public DateTime Created { get; set; }
         public string ShortDesc { get; set; }
         public string BodyMarkdown { get; set; }
