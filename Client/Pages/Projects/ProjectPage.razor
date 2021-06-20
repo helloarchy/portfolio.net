@@ -1,16 +1,117 @@
 ﻿@page "/projects/{projectpagename}"
-<h3>project @ProjectPageName</h3>
+
+@using Portfolio.Shared
+@using System.Globalization
+@using Markdig
+@using Markdig.Renderers.Html
+@using System.Text.Encodings.Web
+
+@inject HttpClient _http
+
+@if (_project is null)
+{
+    <MudContainer>
+        @if (!_isFound)
+        {
+            <MudText Typo="Typo.h2" Align="Align.Center">404 Not Found</MudText>
+            <MudText Typo="Typo.body1" Align="Align.Center">
+                There is no <i>"@ProjectPageName"</i> project, try choosing one 
+                from the projects page.
+            </MudText>
+            <div class="flex justify-center w-full gap-8 mt-8">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="/" Class="mx-2">
+                    Home
+                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Link="/projects" Class="mx-2">
+                    Projects
+                </MudButton>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="Typo.h2" Align="Align.Center">Loading Project</MudText>
+            <div class="flex justify-center mt-8">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
+            </div>
+        }
+    </MudContainer>
+}
+else
+{
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        <MudPaper Elevation="3">
+            @* Header *@
+            <MudText Typo="Typo.h1">@_project.Title</MudText>
+            <MudText Typo="Typo.body1">@_created</MudText>
+
+            @* Categories *@
+            @if (_project.Categories.Count > 0)
+            {
+                <MudText Typo="Typo.body2">Categories</MudText>
+                @foreach (var category in _project.Categories)
+                {
+                    <MudChip Variant="Variant.Filled" Color="Color.Info">@category.Name</MudChip>
+                }
+            }
+
+            @* Technologies *@
+            @if (_project.Technologies.Count > 0)
+            {
+                <MudText Typo="Typo.body2">Technologies</MudText>
+                @foreach (var technology in _project.Technologies)
+                {
+                    <MudChip Variant="Variant.Filled" Color="Color.Info">@technology.Name</MudChip>
+                }
+            }
+
+            @* Body *@
+            <div class="">
+                @_body
+            </div>
+        </MudPaper>
+    </MudContainer>
+
+    <div class="rounded-full py-3 px-6...">Pill Shape</div>
+    <div class="rounded-full h-24 w-24 flex items-center justify-center...">Circle</div>
+}
 
 @code {
+
     [Parameter]
     public string ProjectPageName { get; set; }
 
-    protected override void OnInitialized()
+    private Project _project;
+
+    private bool _isFound = true;
+    private string _created;
+    private MarkupString _body;
+
+    protected override async void OnParametersSet()
+    {
+        ProjectPageName ??= "default";
+
+        try
         {
-            ProjectPageName ??= "default";
-        
-            /*
-             * TODO: If project name doesn't exist, then 404
-             */
+            _project = await _http.GetFromJsonAsync<Project>($"/project/{ProjectPageName}");
+
+            if (_project != null)
+            {
+                _created = _project.Created.ToString("Y", CultureInfo.CurrentCulture);
+                var markdownToHtml = Markdown.ToHtml(_project.BodyMarkdown);
+                Console.WriteLine("DEBUG => Mark down to html is...");
+                Console.WriteLine(markdownToHtml);
+                _body = (MarkupString) markdownToHtml;
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine("DEBUG => Failed to load project");
+            Console.WriteLine(e.Message);
+            _isFound = false;
+        }
+
+        StateHasChanged();
+        await base.OnParametersSetAsync();
+    }
+
 }

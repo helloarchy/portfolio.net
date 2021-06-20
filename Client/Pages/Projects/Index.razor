@@ -18,12 +18,11 @@ else
 {
     <MudContainer MaxWidth="MaxWidth.Medium">
         <div class="flex flex-wrap justify-center">
-                @foreach (var project in _projects)
-                {
-                    @* TODO: Add page link... *@
-                    <ProjectCard @key=@project.ProjectId Project="@project" />
-                }
-            </div>
+            @foreach (var project in _projects)
+            {
+                <ProjectCard @key=@project.ProjectId Project="@project"/>
+            }
+        </div>
     </MudContainer>
 }
 
@@ -34,7 +33,7 @@ else
     {
         try
         {
-            _projects = await _http.GetFromJsonAsync<Project[]>("Project");
+            _projects = await _http.GetFromJsonAsync<Project[]>("/project");
         }
         catch (Exception e)
         {

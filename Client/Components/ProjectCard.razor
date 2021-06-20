@@ -1,19 +1,20 @@
 @using Portfolio.Shared
 @using Portfolio.Client.Services
+@using System.Globalization
 
 <div class="w-1/3">
     <MudCard Class="m-4">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.body1">@Project.Title</MudText>
-                <MudText Typo="Typo.body2">@Project.Created</MudText>
+                <MudText Typo="Typo.h4">@Project.Title</MudText>
+                <MudText Typo="Typo.body2">@_created</MudText>
                 @foreach (var category in Project.Categories)
                 {
                     <MudChip Color="Color.Info" Variant="Variant.Outlined">@category.Name</MudChip>
                 }
             </CardHeaderContent>
         </MudCardHeader>
-        <MudCardMedia Image="@Project.ImageUrl" Height="250"/>
+        <MudCardMedia Image="@Project.ImageUrl" Height="300"/>
         <MudCardContent>
             <MudText Typo="Typo.body2">@Project.ShortDesc</MudText>
             <MudDivider/>
@@ -38,6 +39,7 @@
     
     private string _imageUrl;
     private string _pageLink;
+    private string _created;
 
     protected override void OnParametersSet()
     {
@@ -45,6 +47,9 @@
             "https://picsum.photos/600/400/?random" : Project.ImageUrl;
 
         _pageLink = $"/projects/{Project.PageName}";
+        
+        _created = Project.Created.ToString("Y", CultureInfo.CurrentCulture);
+        
         base.OnParametersSet();
     }
 

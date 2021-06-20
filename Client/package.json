@@ -1,22 +1,22 @@
 {
-  "name": "Portfolio",
+  "name": "portfolio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "css:build": "npx tailwind build ./wwwroot/css/app.css -o ./wwwroot/css/output.css"
+    "css:build": "postcss wwwroot/css/app.css -o wwwroot/css/app.min.css"
   },
   "author": "Robert Hardy",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/forms": "^0.3.2",
-    "autoprefixer": "^10.2.5",
-    "postcss": "^8.2.13",
-    "tailwindcss": "^2.1.2"
-  },
-  "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/typography": "^0.4.1",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.5",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.2",
     "tailwindcss-aspect-ratio": "^3.0.0"
   }
 }
